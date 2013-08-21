@@ -70,7 +70,6 @@ void WorldManager::init(){
 	}
 
 	//Federkette von Kugeln
-	cout <<"Worldmanager: "<< spring_chain_length<<endl;
 		temp_particles = mObjectFactory.createParticles(spring_chain_length,0.15,0.2,2.5, Vector3(0.1,1.0,0.3));
 		DampedSpring* spring2 = new DampedSpring();
 		spring2->setDampConstant(0.2);
