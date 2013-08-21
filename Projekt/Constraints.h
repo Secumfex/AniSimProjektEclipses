@@ -1,6 +1,8 @@
 #ifndef CONSTRAINTS_H
 #define CONSTRAINTS_H
 
+//TESTTEST
+
 static float World_max_X = 5.0;
 static float World_max_Y = 5.0;
 static float World_max_Z = 5.0;
