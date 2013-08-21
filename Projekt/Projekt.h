@@ -7,6 +7,9 @@
 #include "CollisionManager.h"
 #include "WorldManager.h"
 
+#include <iostream>
+using namespace std;
+
 class Projekt : public BasisApplication
 {
 	//---------------CONSTRUCTORS & DESTRUCTOR------------

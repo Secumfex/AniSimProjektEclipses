@@ -38,7 +38,7 @@ void DampedSpringChain::addParticles(vector<Physics* > particles){
 	for (int i = 0; i < particles.size(); i++){
 		addParticle(particles[i]);
 	}
-	cout<<"chain length: " <<mParticles.size()<<endl;
+	//cout<<"chain length: " <<mParticles.size()<<endl;
 }
 
 DampedSpringChain::DampedSpringChain(Physics* start, DampedSpring* dampedSpring){

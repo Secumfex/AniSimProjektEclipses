@@ -8,6 +8,10 @@ static float World_min_X = -5.0;
 static float World_min_Y = 0.0;
 static float World_min_Z = -5.0;
 
-static float collision_epsilon = 0.0001;
+
+static int normal_Rigid_Balls = 15;
+static int spring_Rigid_Balls = 10;
+static int spring_chain_length = 10;
+//static float collision_epsilon = 0.0001;
 
 #endif

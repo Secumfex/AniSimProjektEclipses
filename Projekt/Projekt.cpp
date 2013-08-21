@@ -9,6 +9,7 @@ Projekt::~Projekt(){
 }
 
 void Projekt::init(){
+
 	mWorldManager.init();
 
 }

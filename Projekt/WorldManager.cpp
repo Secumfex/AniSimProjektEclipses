@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 
+
 void WorldManager::update(float d_t){
 	mCollisionManager.testRigidBallsWorld();
 	mCollisionManager.testRigidBallsAgainstRigidBalls();
@@ -23,6 +24,15 @@ void WorldManager::update(float d_t){
 
 void WorldManager::init(){
 	
+	//Das klappt noch net so lecker
+		cout<<"Anzahl gewöhnlicher Rigid Balls: ";
+		cin >> normal_Rigid_Balls;
+		cout<<"Anzahl federnde Bälle um großen Ball: ";
+		cin >> spring_Rigid_Balls;
+		cout<<"Länge der Federnden Ball-Kette: ";
+		cin >> spring_chain_length;
+
+
 	//Referenzen setzen
 	mObjectFactory.setVectorReferences(&mRigidBallObjects,&mBallObjects,&mPhysicsObjects);
 	mObjectFactory.setParticleSystemVectorReference(&mParticleSystemObjects);
@@ -41,8 +51,8 @@ void WorldManager::init(){
 	mObjectFactory.addRigidBall(0.3,0.5,Vector3(2.0,4.0,0.0)),Vector3(-0.1,-0.1,-0.1);
 	mRigidBallObjects[2]->setColor(0.0,1.0,1.0);
 				//Partikel
-	vector<Physics* > temp_particles = mObjectFactory.createParticles(25,0.25,0.3,2.5);
-	temp_particles = mObjectFactory.createParticles(15,0.2,0.25,2.5, Vector3(0.4,0.1,0.7));
+	vector<Physics* > temp_particles = mObjectFactory.createParticles(normal_Rigid_Balls,0.25,0.3,2.5);
+	temp_particles = mObjectFactory.createParticles(spring_Rigid_Balls,0.2,0.25,2.5, Vector3(0.4,0.1,0.7));
 
 	//Testweise
 	//SimpleForce* gravity = new SimpleForce(Vector3(0.0,0.0,0.0));
@@ -55,12 +65,13 @@ void WorldManager::init(){
 	//mGlobalForceObjects.push_back(gravity);
 
 	//Kugeln um fette Kugel
-	for (int i = 0; i < temp_particles.size(); i ++){
+	for (unsigned int i = 0; i < temp_particles.size(); i ++){
 		spring->addPhysicsPair(mRigidBallObjects[0]->getPhysics(),temp_particles[i]);
 	}
 
 	//Federkette von Kugeln
-		temp_particles = mObjectFactory.createParticles(10,0.15,0.2,2.5, Vector3(0.1,1.0,0.3));
+	cout <<"Worldmanager: "<< spring_chain_length<<endl;
+		temp_particles = mObjectFactory.createParticles(spring_chain_length,0.15,0.2,2.5, Vector3(0.1,1.0,0.3));
 		DampedSpring* spring2 = new DampedSpring();
 		spring2->setDampConstant(0.2);
 		spring2->setRestLength(0.7);
@@ -71,7 +82,7 @@ void WorldManager::init(){
 		springChain->addParticles(temp_particles);
 		mParticleSystemObjects.push_back(springChain); 
 
-	for (int i = 0; i < mRigidBallObjects.size(); i ++){
+	for (unsigned int i = 0; i < mRigidBallObjects.size(); i ++){
 		drag->addInfluencedPhysics(mRigidBallObjects[i]->getPhysics());
 	//	spring->addInfluencedPhysics(mRigidBallObjects[i]->getPhysics());
 	}
@@ -101,7 +112,7 @@ void WorldManager::draw(){
 }
 
 void WorldManager::applyGlobalForces(float d_t){
-	for (int i = 0; i < mGlobalForceObjects.size(); i++){
+	for (unsigned int i = 0; i < mGlobalForceObjects.size(); i++){
 		mGlobalForceObjects[i]->apply_fun(d_t);
 	}
 }
