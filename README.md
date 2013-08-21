@@ -7,15 +7,15 @@ ________________________________
 
 How To Inschtall in Eclipse CDT mit OpenGL n stuff:
 
-# Dateien von GitHub klonen ( Clone in Desktop, am besten vorher Default Storage Directory auf Eclipse Workspace setzen)
-# in Eclipse C++ Projekt mit Namen AniSimProjektEclipses erstellen
-# in Eclipse Projekteinstellungen -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Includes
++ Dateien von GitHub klonen ( Clone in Desktop, am besten vorher Default Storage Directory auf Eclipse Workspace setzen)
++ in Eclipse C++ Projekt mit Namen AniSimProjektEclipses erstellen
++ in Eclipse Projekteinstellungen -> C/C++ Build -> Settings -> Tool Settings -> GCC C++ Compiler -> Includes
   - hinzufügen -> Workspace... -> AniSimProjektEclipses/BasisApplication und alle anderen Ordner einzeln hinzufügen
-# MinGW C++ Linker -> Libraries 
++ MinGW C++ Linker -> Libraries 
   - hinzufügen: opengl32
                 glut32
                 glu32
-# Rechtsklick auf Projekt -> Build Project ( main() befindet ich in EmptyGLUTWnd.cpp )
++ Rechtsklick auf Projekt -> Build Project ( main() befindet ich in EmptyGLUTWnd.cpp )
 
 ________________________________
 
