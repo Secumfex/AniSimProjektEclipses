@@ -1,6 +1,0 @@
-#ifndef WORLDOBJECTMANAGER_H
-#define WORLDOBJECTMANAGER_H
-
-//TODO
-
-#endif
