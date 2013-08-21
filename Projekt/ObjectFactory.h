@@ -45,8 +45,3 @@ public:
 	/**Zeichnen aller Objekte*/
 	void drawAllObjects();
 };
-
-//Position des Balles wird an Physicsposition gebunden
-	static void bind(Ball* ball, Physics* physics){
-	ball->setPositionPointer(physics->getPositionPointer());
-}
