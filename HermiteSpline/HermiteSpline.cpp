@@ -92,13 +92,13 @@ void HermiteSpline::deCasteljau(float t, vector<Vector3> &cp, Vector3 &point, Ve
 
 void HermiteSpline::generateArcLengthTable(int res){
 	//********************************************************************************
-	//hier muss die Erstellung der Bogenlängentabelle programmiert werden
+	//hier muss die Erstellung der Bogenlï¿½ngentabelle programmiert werden
 
 	int numPatches = mControlPoints.size() - 1;
 	int stepsPerPatch = res / numPatches;
 	float u;
 	float uStep = 1.0f / stepsPerPatch;
-	float len = 0.0;
+	//float len = 0.0;
 
 	Vector3 point, lastPoint;
 
@@ -138,7 +138,7 @@ void HermiteSpline::generateArcLengthTable(int res){
 	//********************************************************************************
 
 	//DEBUG
-	for(int i=0; i<mArcLengthTable.size(); i++){
+	for(unsigned int i=0; i<mArcLengthTable.size(); i++){
 		cout<<"i: "<<i<<"  u: "<<mArcLengthTable[i].u<<"  Patch: "<<mArcLengthTable[i].patchNumber<<"   Length: "<<mArcLengthTable[i].arcLength<<endl; 
 	}
 }
@@ -147,8 +147,8 @@ void HermiteSpline::generateArcLengthTable(int res){
 void HermiteSpline::getParameterByArcLength(float length, float &u, int &patchNum){
 
 	//********************************************************************************
-	//hier wird der parameter u und der entsprechende Spline für eine gegebene Bogenlänge
-	//in der Tabelle gesucht. Ein binäres Suchverfahren ist zu empfehlen. 
+	//hier wird der parameter u und der entsprechende Spline fï¿½r eine gegebene Bogenlï¿½nge
+	//in der Tabelle gesucht. Ein binï¿½res Suchverfahren ist zu empfehlen.
 
 	if(length > mArcLengthTable.back().arcLength){ //given length exeeds path length, return -1 as error
 		u = -1.0;
@@ -178,9 +178,9 @@ void HermiteSpline::getParameterByArcLength(float length, float &u, int &patchNu
 
 					float interpolLow = mArcLengthTable[index - 1].u;
 					/*
-					Ueberprüfung: der kleinere Wert ist der letzte Wert des vorherigen Patch
-					In der Bogenlängentabelle vgl.  Vorlesungsskript fehlt der Wert für u = 0
-					Daher Wert für u=1 des vorherigen Patches nehmen.
+					Ueberprï¿½fung: der kleinere Wert ist der letzte Wert des vorherigen Patch
+					In der Bogenlï¿½ngentabelle vgl.  Vorlesungsskript fehlt der Wert fï¿½r u = 0
+					Daher Wert fï¿½r u=1 des vorherigen Patches nehmen.
 					*/
 					
 					//if(interpolLow >= 1.0f){ 
@@ -200,7 +200,7 @@ void HermiteSpline::getParameterByArcLength(float length, float &u, int &patchNu
 		}
 
 		if(mArcLengthTable[index].arcLength < length){
-			if(index + 1 < mArcLengthTable.size()){ //bounds check
+			if(index + 1 < (int) mArcLengthTable.size()){ //bounds check
 				if(mArcLengthTable[index + 1].arcLength > length){
 
 					float frac = (length - mArcLengthTable[index].arcLength) / (mArcLengthTable[index + 1].arcLength - mArcLengthTable[index].arcLength);
@@ -229,7 +229,7 @@ void HermiteSpline::getParameterByArcLength(float length, float &u, int &patchNu
 
 void HermiteSpline::calculateFrenetFrame(float u, HermiteSplineControlPoint* c0, HermiteSplineControlPoint* c1, Vector3 &tangent, Vector3 &binormal, Vector3 &normal){
 	//********************************************************************************
-	//hier wird der Frenet-Frame berechnet und in den übergebenen Funktionsargumenten gespeichert
+	//hier wird der Frenet-Frame berechnet und in den ï¿½bergebenen Funktionsargumenten gespeichert
 	//Sie brauchen noch die zweite Ableitung einer Bezier-Kurve...
 
 	vector<Vector3> bez;

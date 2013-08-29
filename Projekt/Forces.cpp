@@ -50,7 +50,7 @@ void SimpleForce::setForce(Vector3 dir, float length){
 	mForce = dir*length;
 }
 void SimpleForce::apply_fun(float d_t){
-	for (int i = 0; i < mInfluencedPhysics.size(); i++){
+	for (unsigned int i = 0; i < mInfluencedPhysics.size(); i++){
 		mInfluencedPhysics[i]->applyForce(mForce*d_t);
 	}
 }

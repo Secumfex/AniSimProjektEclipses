@@ -86,7 +86,7 @@ public:
 	}
 
 	void applyCollisionForces(float d_t){
-		for (int i = 0; i < mCollisionForces.size(); i ++){
+		for (unsigned int i = 0; i < mCollisionForces.size(); i ++){
 			mCollisionForces[i]->apply_fun(d_t);
 		} 
 		mCollisionForces.clear();

@@ -35,7 +35,7 @@ void ParticleSystem::update(float d_t){
 }
 
 void DampedSpringChain::addParticles(vector<Physics* > particles){
-	for (int i = 0; i < particles.size(); i++){
+	for (unsigned int i = 0; i < particles.size(); i++){
 		addParticle(particles[i]);
 	}
 	//cout<<"chain length: " <<mParticles.size()<<endl;

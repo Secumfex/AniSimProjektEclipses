@@ -24,20 +24,22 @@ void WorldManager::update(float d_t){
 
 void WorldManager::init(){
 	
-	//Das klappt noch net so lecker
+	//Benutzereingaben:
 		cout<<"Anzahl gewˆhnlicher Rigid Balls: ";
 		cin >> normal_Rigid_Balls;
 		cout<<"Anzahl federnde B‰lle um groﬂen Ball: ";
 		cin >> spring_Rigid_Balls;
 		cout<<"L‰nge der Federnden Ball-Kette: ";
 		cin >> spring_chain_length;
-
+		cout<<"Erdanziehungskraft (1/0): ";
+		cin >> gravity_flag;
 
 	//Referenzen setzen
 	mObjectFactory.setVectorReferences(&mRigidBallObjects,&mBallObjects,&mPhysicsObjects);
 	mObjectFactory.setParticleSystemVectorReference(&mParticleSystemObjects);
 	mCollisionManager.setRigidBallsVectorReference(&mRigidBallObjects);
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 	//StartObjekte erstellen
 				//groﬂer Ball
 	mObjectFactory.addRigidBall(0.5,0.7,Vector3(0.0,2.0,0.0),Vector3(0.0,0.0,0.0));
@@ -52,10 +54,16 @@ void WorldManager::init(){
 	mRigidBallObjects[2]->setColor(0.0,1.0,1.0);
 				//Partikel
 	vector<Physics* > temp_particles = mObjectFactory.createParticles(normal_Rigid_Balls,0.25,0.3,2.5);
-	temp_particles = mObjectFactory.createParticles(spring_Rigid_Balls,0.2,0.25,2.5, Vector3(0.4,0.1,0.7));
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Testweise
-	//SimpleForce* gravity = new SimpleForce(Vector3(0.0,0.0,0.0));
+	if(gravity_flag){
+		SimpleForce* gravity = new SimpleForce(Vector3(0.0,-1.5,0.0));
+		mGlobalForceObjects.push_back(gravity);
+	}
 	
 	ViscousDrag* drag = new ViscousDrag();
 	DampedSpring* spring =new  DampedSpring(mRigidBallObjects[1]->getPhysics(),mRigidBallObjects[2]->getPhysics(),10.0,0.1,2.0);
@@ -64,26 +72,32 @@ void WorldManager::init(){
 	mGlobalForceObjects.push_back(drag);
 	//mGlobalForceObjects.push_back(gravity);
 
-	//Kugeln um fette Kugel
+
+	//Kugeln um groﬂe Kugel herum
+	temp_particles = mObjectFactory.createParticles(spring_Rigid_Balls,0.2,0.25,2.5, Vector3(0.4,0.1,0.7));
 	for (unsigned int i = 0; i < temp_particles.size(); i ++){
 		spring->addPhysicsPair(mRigidBallObjects[0]->getPhysics(),temp_particles[i]);
 	}
 
 	//Federkette von Kugeln
-		temp_particles = mObjectFactory.createParticles(spring_chain_length,0.15,0.2,2.5, Vector3(0.1,1.0,0.3));
-		DampedSpring* spring2 = new DampedSpring();
-		spring2->setDampConstant(0.2);
-		spring2->setRestLength(0.7);
-		spring2->setSpringConstant(5.0);
-		Physics* start = temp_particles[0];
-		DampedSpringChain* springChain = new DampedSpringChain(start,spring2);
-		//temp_particles.erase(temp_particles.begin());
-		springChain->addParticles(temp_particles);
-		mParticleSystemObjects.push_back(springChain); 
+	temp_particles = mObjectFactory.createParticles(spring_chain_length,0.15,0.2,2.5, Vector3(0.1,1.0,0.3));
+	DampedSpring* spring2 = new DampedSpring();
+	spring2->setDampConstant(0.2);
+	spring2->setRestLength(0.7);
+	spring2->setSpringConstant(5.0);
+	Physics* start = temp_particles[0];
+	DampedSpringChain* springChain = new DampedSpringChain(start,spring2);
+	//temp_particles.erase(temp_particles.begin());
+	springChain->addParticles(temp_particles);
+	mParticleSystemObjects.push_back(springChain);
 
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	//Alle B‰lle bei GlobalForces Anmelden
 	for (unsigned int i = 0; i < mRigidBallObjects.size(); i ++){
-		drag->addInfluencedPhysics(mRigidBallObjects[i]->getPhysics());
-	//	spring->addInfluencedPhysics(mRigidBallObjects[i]->getPhysics());
+		for (unsigned int j = 0; j < mGlobalForceObjects.size();j++){
+			mGlobalForceObjects[j]->addInfluencedPhysics(mRigidBallObjects[i]->getPhysics());
+		}
 	}
 }
 
