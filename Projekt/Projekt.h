@@ -18,22 +18,11 @@ class Projekt : public BasisApplication
 		~Projekt(void);
 
 	//---------------MEMBER VARIABLES---------------------
-	protected:	//Besserbei zeiten mal ein World-Manager basteln
-		vector<RigidBall* > mRigidBallObjects;
-		vector<Ball* > mBallObjects;
-		vector<Physics* > mPhysicsObjects;
-			
-		vector<Force* > mForceObjects;
-		//vector<ParticleSystem* > mParticleSystemObjects;
-
+	protected:
 		WorldManager mWorldManager;
-		ObjectFactory mObjectFactory;
-		CollisionManager mCollisionManager;
 
 	//---------------MEMBER FUNCTIONS---------------------
 	private:
-		void initObjects();
-		void drawWorldConstraints();
 	public:
 		virtual void init(void);
 		virtual void update(float d_t);

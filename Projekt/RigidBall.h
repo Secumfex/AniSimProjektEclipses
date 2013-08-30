@@ -5,7 +5,7 @@
 #include "Physics.h"
 
 /**
-Wie Ball, aber um ein Physics-Attribut erweitert. Ermöglicht das behandeln als Starrkörper
+Wie Ball, aber um ein Physics-Attribut erweitert. Ermï¿½glicht das behandeln als Starrkï¿½rper
 */
 class RigidBall : public Ball{
 

@@ -13,7 +13,7 @@ public:
 	
 	//---------------CONSTRUCTORS & DESTRUCTOR-----------------
 	public:
-		Matrix3(); //Standardmässig wird die Identitätsmatrix initialisiert
+		Matrix3(); //Standardmï¿½ssig wird die Identitï¿½tsmatrix initialisiert
 		Matrix3(float a11, float a12, float a13,
 				float a21, float a22, float a23,
 				float a31, float a32, float a33);
@@ -23,7 +23,7 @@ public:
 
 	//--------------MEMBER VARIABLES----------------------------
 	private:
-		float matrix_data[3][3]; //Enthält die Matrix
+		float matrix_data[3][3]; //Enthï¿½lt die Matrix
 
 
 	//--------------OPERATORS------------------------------------
@@ -44,12 +44,11 @@ public:
 								float a21, float a22, float a23,
 								float a31, float a32, float a33);
 			//setzt alle Matrixwerte neu
-		void transpose(void); //Transponiert die Matrix [Durch Rückgabe z.B.
+		void transpose(void); //Transponiert die Matrix [Durch Rï¿½ckgabe z.B.
 		
 		void invert(void); //invertiert die Matrix
 
-
-		void debugPrintToCerr(void) const; //Nur für debug zwecke, gibt die matrix an cerr aus
+		void debugPrintToCerr(void) const; //Nur fï¿½r debug zwecke, gibt die matrix an cerr aus
 };
 
 

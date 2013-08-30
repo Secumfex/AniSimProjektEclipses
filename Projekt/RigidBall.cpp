@@ -1,5 +1,7 @@
 #include "RigidBall.h"
 
+
+
 RigidBall::RigidBall(float radius, float mass, Vector3 position, Vector3 velocity, Vector3 color){
 	setPhysics(new Physics( mass, velocity, position));
 	setRadius(radius);
@@ -15,7 +17,7 @@ Physics* RigidBall::getPhysics(){
 	return mPhysics;
 }
 
-//Bälle kollidieren nach Ball-Kollisions-Kriterium
+//Bï¿½lle kollidieren nach Ball-Kollisions-Kriterium
 bool RigidBall::checkCollision(RigidBall* with){
 	return Ball::checkCollision(with);
 	}

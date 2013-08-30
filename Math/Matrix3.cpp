@@ -143,11 +143,11 @@ float& Matrix3::operator()(const int &zeile, const int &spalte)
 {
 	if(zeile>3 || spalte>3 || zeile<1 || spalte<1) //Befindet sich der index in der matrix ?
 		cout<<"ERROR: Matrix Index out of Bounds"<<endl;
-	else
-		return(matrix_data[zeile-1][spalte-1]);
+	else{
+		return(matrix_data[zeile-1][spalte-1]);}
 }
 
-void Matrix3::setIdentity() //setzt die Matrix auf die Identität
+void Matrix3::setIdentity() //setzt die Matrix auf die Identitï¿½t
 {
 	for(int i=0; i<3; i++)
 		for(int j=0; j<3; j++)
@@ -229,7 +229,7 @@ void Matrix3::invert(void) //invertiert die Matrix
 
 }
 
-void Matrix3::debugPrintToCerr(void) const //Nur für debug zwecke, gibt die matrix an cerr aus
+void Matrix3::debugPrintToCerr(void) const //Nur fï¿½r debug zwecke, gibt die matrix an cerr aus
 {
 	cerr << "\n("	<< matrix_data[0][0] << ","
 					<< matrix_data[0][1] << ","

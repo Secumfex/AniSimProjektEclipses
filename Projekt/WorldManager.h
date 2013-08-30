@@ -9,6 +9,7 @@
 class WorldManager{
 private:
 	vector<RigidBall* > mRigidBallObjects;
+	vector<RigidBody* > mRigidBodyObjects;
 	vector<Ball* > mBallObjects;
 	vector<Physics* > mPhysicsObjects;
 			
@@ -20,6 +21,9 @@ private:
 	CollisionManager mCollisionManager;
 
 	void applyGlobalForces(float d_t);
+
+	inline void initRigidBallSimulation();
+	inline void initRigidBodySimulation();
 
 public:
 

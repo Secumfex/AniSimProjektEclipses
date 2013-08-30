@@ -11,7 +11,7 @@ ObjectFactory::~ObjectFactory(void)
 {
 }
 
-//Vectoren in die neue Objekte gefüllt werden
+//Vectoren in die neue Objekte gefï¿½llt werden
 void ObjectFactory::setVectorReferences(vector<RigidBall* >* rigidBallObjects, vector<Ball* >* ballObjects , vector<Physics* >* physicsObjects){
 	mRigidBallObjects = rigidBallObjects;
 	mBallObjects = ballObjects;
@@ -20,6 +20,9 @@ void ObjectFactory::setVectorReferences(vector<RigidBall* >* rigidBallObjects, v
 
 void ObjectFactory::setRigidBallsVectorReference(vector<RigidBall* >* rigidBallObjects){
 		mRigidBallObjects = rigidBallObjects;
+}
+void ObjectFactory::setRigidBodyVectorReference(vector<RigidBody* >* rigidBodyObjects){
+		mRigidBodyObjects = rigidBodyObjects;
 }
 
 void ObjectFactory::setBallsVectorReference(vector<Ball* >* ballObjects){
@@ -59,9 +62,15 @@ void ObjectFactory::addRigidBall(float radius, float mass, Vector3 position, Vec
 	mRigidBallObjects->push_back(new RigidBall(radius,mass,position,velocity,color));
 }
 
-void ObjectFactory::removeRigidBallObject(int i){
-	mRigidBallObjects->erase(mRigidBallObjects->begin()+i);
+void ObjectFactory::addRigidBlock(float a, float b, float c,
+									Vector3 position, Vector3 velocity,
+									Matrix3 rotation, Vector3 angularMomentum){
+	mRigidBodyObjects->push_back(new RigidBlock(a,b,c,position,velocity,rotation,angularMomentum));
 }
+
+//void ObjectFactory::removeRigidBallObject(int i){
+//	mRigidBallObjects->erase(mRigidBallObjects->begin()+i);
+//}
 
 void ObjectFactory::updateAllObjects(float d_t){
 	
@@ -74,6 +83,9 @@ void ObjectFactory::updateAllObjects(float d_t){
 	for (unsigned int i = 0; i < mPhysicsObjects->size();i++){
 		mPhysicsObjects->at(i)->update(d_t);
 	}
+	for (unsigned int i = 0; i < mRigidBodyObjects->size(); i++){
+		mRigidBodyObjects->at(i)->update(d_t);
+	}
 }
 
 void ObjectFactory::drawAllObjects(){
@@ -82,5 +94,8 @@ void ObjectFactory::drawAllObjects(){
 	}
 	for (unsigned int i = 0; i < mBallObjects->size();i++){
 		mBallObjects->at(i)->draw();
+	}
+	for (unsigned int i = 0; i < mRigidBodyObjects->size(); i++){
+		mRigidBodyObjects->at(i)->draw();
 	}
 }

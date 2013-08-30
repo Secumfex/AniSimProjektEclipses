@@ -13,7 +13,7 @@
 class CollisionManager{
 private:
 	vector<RigidBall* >* mRigidBalls;  
-	vector<Force* > mCollisionForces; //Enthält Vektorbasierte Behandlungen von Kollisionen
+	vector<Force* > mCollisionForces; //Enthï¿½lt Vektorbasierte Behandlungen von Kollisionen
 public:
 	
 
@@ -75,6 +75,7 @@ public:
 
 	//Alle RigidBall-Objekte auf Kollisionen untereinander testen
 	void testRigidBallsAgainstRigidBalls(){
+		if (mRigidBalls->size() == 0) {return;} //vvvvvvvv --> dieser Ausdruck ist wegen unsigned int = MAX_VALUE wenn size = 0
 		for (unsigned int i = 0; i <mRigidBalls->size()-1; i++){
 			for (unsigned int j = i+1; j < mRigidBalls->size();j++){
 				if (mRigidBalls->at(i)->checkCollision(mRigidBalls->at(j))){
