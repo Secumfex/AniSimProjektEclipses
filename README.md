@@ -30,3 +30,7 @@ ________________________________
 
 am Rande bemerkt: Git arbeitet so, dass man zuerst Änderungen anmeldet (comitted) und dann erst anwendet (pusht)
 Erst nach dem Anwenden, also Pushen oder Synchronisieren, sind die Dateien hochgeladen. Oder so.
+
+________________________________
+
+UTF-8 Zeichenkodierung in Eclipse-Projekteigenschaften einstellen
