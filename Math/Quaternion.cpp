@@ -249,7 +249,7 @@ float Quaternion::getAngle(void){
 
 
 void Quaternion::debugPrintToCerr(void){
-//	cerr<<w<<" "<<x<<" "<<y<<" "<<z<<"\n";
+	cerr<<"("<<w<<","<<x<<","<<y<<","<<z<<")\n";
 }
 
 

@@ -18,6 +18,7 @@ public:
 				float a21, float a22, float a23,
 				float a31, float a32, float a33);
 			//Initialisiert die Matrix mit den gegebenen Elementen
+
 		//virtual ~Matrix3(); // [Destruktor von abgeleiteter Klasse und ~Matrix3() aufgerufen]
 		~Matrix3();
 

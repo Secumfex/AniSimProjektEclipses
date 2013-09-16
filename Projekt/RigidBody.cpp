@@ -1,6 +1,5 @@
 #include "RigidBody.h"
 
-#include "Quaternion.h"
 #include <iostream>
 using namespace std;
 
@@ -11,19 +10,44 @@ Matrix3 Star(Vector3 a){
 					-a.getY(), a.getX(), 0);
 }
 
+void RigidBody::printState(){
+
+	//Status
+cerr << "Position: ";
+mX.debugPrintToCerr();
+cerr<< "Rotation-Quaternion: ";
+mQ.debugPrintToCerr();
+cerr<<"Linear Momentum: ";
+mP.debugPrintToCerr();
+cerr<< "Angular Momentum: ";
+mL.debugPrintToCerr();
+
+
+	//Misc
+cerr << "Rotation-Matrix: ";
+mR.debugPrintToCerr();
+cerr << "Omega: ";
+mOmega.debugPrintToCerr();
+cerr<<"I_inv: ";
+mIinv.debugPrintToCerr();
+cerr<<"Velocity: ";
+mV.debugPrintToCerr();
+}
+
 /***************Rigid Body ********************/
 RigidBody::RigidBody(float mass, Matrix3 Ibody,
 		Vector3 position, Vector3 velocity,
-		Matrix3 rotation, Vector3 angularMomentum){
+		Quaternion rotation, Vector3 angularMomentum){
 
 	setPosition(position);
 	setRotation(rotation);
-	setVelocity(velocity);
 
 	setMass(mass);
 	setIbody(Ibody);
+	setVelocity(velocity);
 
 	setAngularMomentum(angularMomentum);
+
 }
 
 RigidBody::~RigidBody(){
@@ -35,6 +59,7 @@ void RigidBody::setIbody(Matrix3 Ibody){
 	mIbody = Ibody;
 	Ibody.invert();
 	mIbodyinv = Ibody;
+
 	Matrix3 R_trans = mR;
 	R_trans.transpose();
 	mIinv =  mR * mIbodyinv * R_trans;
@@ -46,8 +71,12 @@ void RigidBody::setPosition(Vector3 position){
 void RigidBody::setPosition(float x, float y, float z){
 	mX = Vector3(x,y,z);
 }
-void RigidBody::setRotation(Matrix3 rotation){
-	mR = rotation;
+void RigidBody::setRotation(Quaternion rotation){
+	mQ = rotation;
+
+	Quaternion normQ = mQ;
+	normQ.norm();
+	mR = normQ.computeRotationMatrix();
 }
 
 void RigidBody::setAngularMomentum(Vector3 angularMomentum){
@@ -79,15 +108,22 @@ void RigidBody::setMass(float mass){
  * Annahme: torque und force wurden für d_t bereits berechnet
  */
 void RigidBody::update(float d_t){
+/*******Eulerintegration***************/
 	/////Update des Status
 	//UpdatePosition
 	Vector3 Xdot = mV*d_t;
 	setPosition(mX+Xdot);
 
 	//UpdateRotation
-	Matrix3 Rdot = Star(mOmega) * mR * d_t;
-	setRotation(mR+Rdot);
+	Quaternion OmegaQuat(0,mOmega);
+	Quaternion Qdot = (OmegaQuat*mQ)*0.5;
+	Qdot.debugPrintToCerr();
+	mQ += Qdot;
+    mQ.norm();
+	//mQ.debugPrintToCerr();
 
+
+/*******Momente aktualisieren********/
 	//Anwenden wirkender Kräfte auf Linear und Angular Momentum
 	Vector3 Pdot = mForce;
 	mP += Pdot;
@@ -97,10 +133,16 @@ void RigidBody::update(float d_t){
 	mL += Ldot;
 	mTorque = Vector3(0,0,0);
 
-	////Update der Hilfsvariablen
+/*****Hilfsvariablen aktualisieren****/
 	//UpdateVelocity
 	if (mMass != 0){
 	mV = mP * ((1.0)/ mMass);}
+
+	//Update RotationMatrix
+	Quaternion normQ(mQ);
+	normQ.norm();
+	mR = normQ.computeRotationMatrix();
+
 	//Update I_inv
 	Matrix3 R_trans = mR;
 	R_trans.transpose();
@@ -108,26 +150,29 @@ void RigidBody::update(float d_t){
 	//Update Omega
 	mOmega = mIinv * mL;
 
+	//printState();
 }
+
 void RigidBody::draw(){
 
 }
 
-void RigidBody::applyForceAndTorque(){
-	setImpulse(mP + mForce);
-}
+//void RigidBody::applyForceAndTorque(){
+//	setImpulse(mP + mForce);
+//}
 
 
 
 /***************Rigid Block ********************/
 RigidBlock::RigidBlock(float a, float b, float c,
 		Vector3 position, Vector3 velocity,
-		Matrix3 rotation, Vector3 angularMomentum){
+		Quaternion rotation, Vector3 angularMomentum){
 
+	//Status setzen
 	setPosition(position);
 	setRotation(rotation);
-	setVelocity(velocity);
 
+	//Trägheitstensor berechnen
 	mA = a;
 	mB = b;
 	mC = c;
@@ -138,7 +183,10 @@ RigidBlock::RigidBlock(float a, float b, float c,
 					0		,0		,a*a+b*b);
 	setIbody(I_body);
 
+	setVelocity(velocity);
 	setAngularMomentum(angularMomentum);
+
+	printState();
 }
 
 void RigidBlock::draw(){
@@ -153,9 +201,8 @@ void RigidBlock::draw(){
 	glColor3f(1.0,0.0,0.0);
 
 	glTranslatef(mX.getX(),mX.getY(),mX.getZ());
-	Quaternion r(mR);
 	//cout<<"Rotation: "<<r.getW() <<" , "<< r.getX() <<" , "<<  r.getY()<<" , "<<  r.getZ()<<endl;
-	glRotatef(r.getW(),r.getX(),r.getY(),r.getZ());
+	glRotatef(mQ.getAngle(),mQ.getX(),mQ.getY(),mQ.getZ());
 	glPushMatrix();
 		glBegin(GL_LINE_LOOP);
 			glVertex3f(-x,-y,z); //0

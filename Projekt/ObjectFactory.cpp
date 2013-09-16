@@ -64,7 +64,7 @@ void ObjectFactory::addRigidBall(float radius, float mass, Vector3 position, Vec
 
 void ObjectFactory::addRigidBlock(float a, float b, float c,
 									Vector3 position, Vector3 velocity,
-									Matrix3 rotation, Vector3 angularMomentum){
+									Quaternion rotation, Vector3 angularMomentum){
 	mRigidBodyObjects->push_back(new RigidBlock(a,b,c,position,velocity,rotation,angularMomentum));
 }
 

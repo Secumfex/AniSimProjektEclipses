@@ -3,6 +3,8 @@
 
 #include "Physics.h"
 #include "Matrix3.h"
+#include "Quaternion.h"
+
 #include <GL/glut.h>
 
 class RigidBody {
@@ -45,12 +47,13 @@ protected:
 
 	/* State variables */
 	Vector3 mX; 		/* x(t)/ << Position*/
-	Matrix3 mR; 		/* R(t)/ << Rotation*/
+	Quaternion mQ; 		/* R(t)/ << Rotation*/
 	Vector3 mP; 		/* P(t)/ << Impuls*/
 	Vector3 mL; 		/* L(t)	 << Angular Momentum / */
 
 	/* Derived quantities (auxiliary variables) */
 	Matrix3 mIinv; 	/* I−1(t)	 << Inverser Trägheitstensor/ */
+	Matrix3 mR;
 	Vector3 mV; 		/* v(t)/ << Velocity aus Impuls berechnet*/
 	Vector3 mOmega;  /* w(t)/ 	 << Omega (w) Winkelgeschwindigkeit oder so*/
 
@@ -62,14 +65,14 @@ public:
 	~RigidBody();
 	RigidBody(float mass = 1.0, Matrix3 Ibody = Matrix3(1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0),
 			  Vector3 position = Vector3(0,0,0), Vector3 velocity = Vector3(0,0,0),
-			  Matrix3 rotation = Matrix3(), Vector3 angularMomentum = Vector3(0,0,0));
+			  Quaternion rotation = Quaternion(), Vector3 angularMomentum = Vector3(0,0,0));
 
 	/*Getter und Setter*/
 	void setMass(float mass);
 	void setIbody(Matrix3 Ibody);
 	void setPosition(Vector3 position);
 	void setPosition(float x = 0.0, float y = 0.0, float z = 0.0);
-	void setRotation(Matrix3 rotation);
+	void setRotation(Quaternion rotation);
 	void setAngularMomentum(Vector3 angularMomentum);
 	void setOmega(Vector3 omega);
 
@@ -80,6 +83,7 @@ public:
 	void applyForceAndTorque();
 	void update(float d_t);
 	virtual void draw();
+	void printState();
 };
 
 //Ein Block mit Seitenlängen a, b, c
@@ -91,7 +95,7 @@ protected:
 public:
 	RigidBlock(float a = 1.0, float b = 1.0, float c = 1.0,
 			Vector3 position = Vector3(0,0,0), Vector3 velocity = Vector3(0,0,0),
-			Matrix3 rotation = Matrix3(), Vector3 angularMomentum = Vector3(0,0,0));
+			Quaternion rotation = Quaternion(), Vector3 angularMomentum = Vector3(0,0,0));
 	virtual void draw();
 };
 

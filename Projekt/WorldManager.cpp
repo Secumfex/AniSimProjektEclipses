@@ -69,12 +69,10 @@ inline void WorldManager:: initRigidBallSimulation(){
 }
 
 inline void WorldManager::initRigidBodySimulation(){
-	Quaternion r(45,1.0,1.0,1.0);
-	Matrix3 rotation = r.computeRotationMatrix();
-//	rotation.debugPrintToCerr();
+	Quaternion rotation(0.0,0.0,0.0,0.0);
 	mObjectFactory.addRigidBlock(1,1,1,
 			Vector3(0,2.0,0),Vector3(0,0,0),
-			rotation,Vector3(0.0,1.0,0.0));
+			rotation,Vector3(10,10.0,0.0));
 }
 
 void WorldManager::init(){
@@ -98,14 +96,15 @@ void WorldManager::init(){
 		cin >> spring_Rigid_Balls;
 		cout<<"Länge der Federnden Ball-Kette: ";
 		cin >> spring_chain_length;
+		cout<<"Erdanziehungskraft-Stärke: ";
+		cin >> gravity_strength;
 		initRigidBallSimulation();
 		break;
 	case 2:
 		initRigidBodySimulation();
 		break;
 	}
-		cout<<"Erdanziehungskraft-Stärke: ";
-		cin >> gravity_strength;
+
 
 ///////////////Globale Kräfte/////////////////////////////////////////////////////////////////////////
 

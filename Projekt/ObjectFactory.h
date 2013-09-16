@@ -37,7 +37,7 @@ public:
 	/*Hinzufügen von Objekten*/
 	void addRigidBlock(float a= 1.0, float b= 1.0, float c = 1.0,
 			Vector3 position = Vector3(0,0,0), Vector3 velocity = Vector3(0,0,0),
-			Matrix3 rotation = Matrix3(), Vector3 angularMomentum = Vector3(0,0,0));
+			Quaternion rotation = Quaternion(), Vector3 angularMomentum = Vector3(0,0,0));
 	void addRigidCube(float sideLength = 1.0);
 
 	void addRigidBall(float radius = 0.5, float mass = 1.0, Vector3 position = Vector3(0,0,0), Vector3 velocity = Vector3(0,0,0), Vector3 color = Vector3(1.0, 0.75, 0.0));
